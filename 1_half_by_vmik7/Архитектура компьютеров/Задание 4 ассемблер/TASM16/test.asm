@@ -1,0 +1,31 @@
+.MODEL TINY
+.STACK 100h
+.DATA
+	num db 1234
+.CODE
+	mov ax,@Data
+	mov ds,ax
+	
+OUTP:	XOR AX,AX
+	MOV Al,num
+	XOR CX,CX
+SAVE:	INC CX
+	MOV BL,10
+	DIV BL
+	ADD AH, '0'
+	PUSH AX
+	XOR AH, AH
+	CMP AX,0
+	JNE SAVE
+
+	MOV AX,0200h
+PRINT:	POP dx
+	MOV dl,dh
+	INT 21h
+	LOOP PRINT   
+
+	MOV AH,10h
+	INT 16h
+	MOV AX,4C00h
+	INT 21h
+END

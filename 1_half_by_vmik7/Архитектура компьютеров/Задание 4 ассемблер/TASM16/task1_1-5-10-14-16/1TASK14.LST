@@ -1,0 +1,55 @@
+Turbo Assembler	 Version 3.1	    12/20/18 12:44:33	    Page 1
+1task14.asm
+
+
+
+      1	0000			     .MODEL SMALL
+      2	0000			     .STACK 100h
+      3	0000			     .DATA
+      4	0000  48 65 6C 6C 6F 21	24	 Message  DB 'Hello!$'
+      5	0007			     .CODE
+      6	0000  B8 0000s			     mov ax,@Data
+      7	0003  8E D8			     mov ds,ax
+      8
+      9	0005  B4 09			     mov ah,9
+     10	0007  BA 0000r			     mov dx,OFFSET Message
+     11	000A  CD 21			     int 21h
+     12
+     13	000C  B4 10			     mov  ah,10h
+     14	000E  CD 16			     int  16h
+     15	0010  B4 4C			     mov ah,4ch
+     16	0012  CD 21			     int 21h
+     17				     END
+Turbo Assembler	 Version 3.1	    12/20/18 12:44:33	    Page 2
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "12/20/18"
+??FILENAME			  Text	 "1task14 "
+??TIME				  Text	 "12:44:33"
+??VERSION			  Number 030A
+@32BIT				  Text	 0
+@CODE				  Text	 _TEXT
+@CODESIZE			  Text	 0
+@CPU				  Text	 0101H
+@CURSEG				  Text	 _TEXT
+@DATA				  Text	 DGROUP
+@DATASIZE			  Text	 0
+@FILENAME			  Text	 1TASK14
+@INTERFACE			  Text	 00H
+@MODEL				  Text	 2
+@STACK				  Text	 DGROUP
+@WORDSIZE			  Text	 2
+MESSAGE				  Byte	 DGROUP:0000
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+DGROUP				  Group
+  STACK				  16  0100 Para	  Stack	  STACK
+  _DATA				  16  0007 Word	  Public  DATA
+_TEXT				  16  0014 Word	  Public  CODE
+

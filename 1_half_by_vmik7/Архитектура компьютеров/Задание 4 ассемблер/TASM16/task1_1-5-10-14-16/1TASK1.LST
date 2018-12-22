@@ -1,0 +1,55 @@
+Turbo Assembler	 Version 3.1	    12/20/18 12:43:41	    Page 1
+1task1.asm
+
+
+
+      1	0000			     .MODEL TINY
+      2	0000			     .STACK 100h
+      3	0000			     .DATA
+      4	0000  11112222			     w dd 11112222h
+      5	0004			     .CODE
+      6	0000  B8 0000s			     mov ax,@Data
+      7	0003  8E D8			     mov ds,ax
+      8
+      9	0005  FF 36 0000r		     push word ptr [w]
+     10	0009  FF 36 0002r		     push word ptr [w+2]
+     11
+     12	000D  8F 06 0000r		     pop word ptr [w]
+     13	0011  8F 06 0002r		     pop word ptr [w+2]
+     14
+     15	0015  B4 4C			     mov ah,4ch		     ; функция DOS завершения программы
+     16	0017  CD 21			     int 21h		     ; завершить программу
+     17				     END
+Turbo Assembler	 Version 3.1	    12/20/18 12:43:41	    Page 2
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "12/20/18"
+??FILENAME			  Text	 "1task1  "
+??TIME				  Text	 "12:43:41"
+??VERSION			  Number 030A
+@32BIT				  Text	 0
+@CODE				  Text	 DGROUP
+@CODESIZE			  Text	 0
+@CPU				  Text	 0101H
+@CURSEG				  Text	 _TEXT
+@DATA				  Text	 DGROUP
+@DATASIZE			  Text	 0
+@FILENAME			  Text	 1TASK1
+@INTERFACE			  Text	 00H
+@MODEL				  Text	 1
+@STACK				  Text	 DGROUP
+@WORDSIZE			  Text	 2
+W				  Dword	 DGROUP:0000
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+DGROUP				  Group
+  STACK				  16  0100 Para	  Stack	  STACK
+  _DATA				  16  0004 Word	  Public  DATA
+  _TEXT				  16  0019 Word	  Public  CODE
+

@@ -1,0 +1,80 @@
+Turbo Assembler	 Version 3.1	    12/20/18 16:43:11	    Page 1
+2task1.asm
+
+
+
+      1	0000			     .MODEL TINY
+      2	0000			     .STACK 100h
+      3	0000			     .DATA
+      4	0000  0021			     a dw 33
+      5	0002  0044			     b dw 68
+      6	0004			     .CODE
+      7	0000  B8 0000s			     mov ax,@Data
+      8	0003  8E D8			     mov ds,ax
+      9
+     10	0005  A1 0000r			     mov ax,a
+     11	0008  8B 16 0002r		     mov dx,b
+     12	000C  3B C2			     CMP ax,dx
+     13	000E  7D 07			     JGE OUTP
+     14	0010  89 16 0000r		     MOV a,dx
+     15	0014  A3 0002r			     MOV b,ax
+     16
+     17	0017  A1 0000r		     OUTP:   MOV AX,a
+     18	001A  33 C9			     XOR CX,CX
+     19	001C  41		     SAVE:   INC CX
+     20	001D  B3 0A			     MOV BL,10
+     21	001F  F6 F3			     DIV BL
+     22	0021  80 C4 30			     ADD AH, '0'
+     23	0024  50			     PUSH AX
+     24	0025  32 E4			     XOR AH, AH
+     25	0027  3D 0000			     CMP AX,0
+     26	002A  75 F0			     JNE SAVE
+     27
+     28	002C  B8 0200			     MOV AX,0200h
+     29	002F  5A		     PRINT:  POP dx
+     30	0030  8A D6			     MOV dl,dh
+     31	0032  CD 21			     INT 21h
+     32	0034  E2 F9			     LOOP PRINT
+     33
+     34	0036  B4 10			     MOV AH,10h
+     35	0038  CD 16			     INT 16h
+     36	003A  B8 4C00			     MOV AX,4C00h
+     37	003D  CD 21			     INT 21h
+     38				     END
+Turbo Assembler	 Version 3.1	    12/20/18 16:43:11	    Page 2
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "12/20/18"
+??FILENAME			  Text	 "2task1  "
+??TIME				  Text	 "16:43:11"
+??VERSION			  Number 030A
+@32BIT				  Text	 0
+@CODE				  Text	 DGROUP
+@CODESIZE			  Text	 0
+@CPU				  Text	 0101H
+@CURSEG				  Text	 _TEXT
+@DATA				  Text	 DGROUP
+@DATASIZE			  Text	 0
+@FILENAME			  Text	 2TASK1
+@INTERFACE			  Text	 00H
+@MODEL				  Text	 1
+@STACK				  Text	 DGROUP
+@WORDSIZE			  Text	 2
+A				  Word	 DGROUP:0000
+B				  Word	 DGROUP:0002
+OUTP				  Near	 DGROUP:0017
+PRINT				  Near	 DGROUP:002F
+SAVE				  Near	 DGROUP:001C
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+DGROUP				  Group
+  STACK				  16  0100 Para	  Stack	  STACK
+  _DATA				  16  0004 Word	  Public  DATA
+  _TEXT				  16  003F Word	  Public  CODE
+

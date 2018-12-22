@@ -1,0 +1,90 @@
+Turbo Assembler	 Version 3.1	    12/20/18 24:05:51	    Page 1
+3task5.asm
+
+
+
+      1	0000			     .MODEL TINY
+      2	0000			     .STACK 100h
+      3	0000			     .DATA
+      4	0000  0001 0002	0003 0004 +	     arr dw 1,2,3,4,575,6,7,8,9,8,7,6,5,4,3,2,1
+      5	      023F 0006	0007 0008 +
+      6	      0009 0008	0007 0006 +
+      7	      0005 0004	0003 0002 +
+      8	      0001
+      9	0022  0011			     n dw 17
+     10	0024  0000			     max dw 0
+     11	0026			     .CODE
+     12	0000  B8 0000s			     mov ax,@Data
+     13	0003  8E D8			     mov ds,ax
+     14
+     15	0005  33 DB			     xor bx,bx
+     16	0007  8B 0E 0022r		     mov cx,n
+     17	000B  8B 87 0000r	     MAS:    mov ax,arr[bx]
+     18	000F  3B 06 0024r		     cmp ax,max
+     19	0013  7E 03			     jle CON
+     20	0015  A3 0024r			     mov max,ax
+     21	0018  83 C3 02		     CON:    add bx,2
+     22	001B  E2 EE			     loop MAS
+     23
+     24	001D  A1 0024r		     OUTP:   MOV AX,max
+     25	0020  33 C9			     XOR CX,CX
+     26	0022  41		     SAVE:   INC CX
+     27	0023  B3 0A			     MOV BL,10
+     28	0025  F6 F3			     DIV BL
+     29	0027  80 C4 30			     ADD AH, '0'
+     30	002A  50			     PUSH AX
+     31	002B  32 E4			     XOR AH, AH
+     32	002D  3D 0000			     CMP AX,0
+     33	0030  75 F0			     JNE SAVE
+     34
+     35	0032  B8 0200			     MOV AX,0200h
+     36	0035  5A		     PRINT:  POP dx
+     37	0036  8A D6			     MOV dl,dh
+     38	0038  CD 21			     INT 21h
+     39	003A  E2 F9			     LOOP PRINT
+     40
+     41	003C  B4 10			     MOV AH,10h
+     42	003E  CD 16			     INT 16h
+     43	0040  B8 4C00			     MOV AX,4C00h
+     44	0043  CD 21			     INT 21h
+     45				     END
+Turbo Assembler	 Version 3.1	    12/20/18 24:05:51	    Page 2
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "12/20/18"
+??FILENAME			  Text	 "3task5  "
+??TIME				  Text	 "24:05:51"
+??VERSION			  Number 030A
+@32BIT				  Text	 0
+@CODE				  Text	 DGROUP
+@CODESIZE			  Text	 0
+@CPU				  Text	 0101H
+@CURSEG				  Text	 _TEXT
+@DATA				  Text	 DGROUP
+@DATASIZE			  Text	 0
+@FILENAME			  Text	 3TASK5
+@INTERFACE			  Text	 00H
+@MODEL				  Text	 1
+@STACK				  Text	 DGROUP
+@WORDSIZE			  Text	 2
+ARR				  Word	 DGROUP:0000
+CON				  Near	 DGROUP:0018
+MAS				  Near	 DGROUP:000B
+MAX				  Word	 DGROUP:0024
+N				  Word	 DGROUP:0022
+OUTP				  Near	 DGROUP:001D
+PRINT				  Near	 DGROUP:0035
+SAVE				  Near	 DGROUP:0022
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+DGROUP				  Group
+  STACK				  16  0100 Para	  Stack	  STACK
+  _DATA				  16  0026 Word	  Public  DATA
+  _TEXT				  16  0045 Word	  Public  CODE
+

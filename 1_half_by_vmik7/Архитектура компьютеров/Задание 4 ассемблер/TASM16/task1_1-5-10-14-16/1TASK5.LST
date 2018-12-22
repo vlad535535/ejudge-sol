@@ -1,0 +1,76 @@
+Turbo Assembler	 Version 3.1	    12/20/18 12:44:00	    Page 1
+1task5.asm
+
+
+
+      1	0000			     .model tiny
+      2	0000			     .stack 100h
+      3	0000			     .data
+      4	0000  0028			     Y DW 40
+      5	0002  ????			     Z DW ?
+      6	0004			     .code
+      7	0000  B8 0000s		     START:  MOV AX,@data
+      8	0003  8E D8				     MOV DS,AX
+      9	0005  33 C0				     XOR AX,AX
+     10
+     11	0007  A1 0000r				     MOV AX,Y
+     12	000A  F7 E0				     MUL AX
+     13	000C  A3 0002r				     MOV Z,AX
+     14
+     15	000F  33 C9				     XOR CX,CX
+     16	0011  33 D2		     SAVE:   XOR DX,DX
+     17	0013  41				     INC CX
+     18	0014  BB 000A				     MOV BX,10
+     19	0017  F7 F3				     DIV BX
+     20	0019  80 C2 30				     ADD DL, '0'
+     21	001C  52				     PUSH DX
+     22	001D  3D 0000				     CMP AX,0
+     23	0020  75 EF				     JNE SAVE
+     24
+     25	0022  B8 0200				     MOV AX,0200h
+     26	0025  5A		     PRINT:  POP DX
+     27	0026  CD 21				     INT 21h
+     28	0028  E2 FB				     LOOP PRINT
+     29
+     30	002A  B4 10				     MOV AH,10h
+     31	002C  CD 16				     INT 16h
+     32	002E  B8 4C00				     MOV AX,4C00h
+     33	0031  CD 21				     INT 21h
+     34				     END START
+Turbo Assembler	 Version 3.1	    12/20/18 12:44:00	    Page 2
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "12/20/18"
+??FILENAME			  Text	 "1task5  "
+??TIME				  Text	 "12:44:00"
+??VERSION			  Number 030A
+@32BIT				  Text	 0
+@CODE				  Text	 DGROUP
+@CODESIZE			  Text	 0
+@CPU				  Text	 0101H
+@CURSEG				  Text	 _TEXT
+@DATA				  Text	 DGROUP
+@DATASIZE			  Text	 0
+@FILENAME			  Text	 1TASK5
+@INTERFACE			  Text	 00H
+@MODEL				  Text	 1
+@STACK				  Text	 DGROUP
+@WORDSIZE			  Text	 2
+PRINT				  Near	 DGROUP:0025
+SAVE				  Near	 DGROUP:0011
+START				  Near	 DGROUP:0000
+Y				  Word	 DGROUP:0000
+Z				  Word	 DGROUP:0002
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+DGROUP				  Group
+  STACK				  16  0100 Para	  Stack	  STACK
+  _DATA				  16  0004 Word	  Public  DATA
+  _TEXT				  16  0033 Word	  Public  CODE
+

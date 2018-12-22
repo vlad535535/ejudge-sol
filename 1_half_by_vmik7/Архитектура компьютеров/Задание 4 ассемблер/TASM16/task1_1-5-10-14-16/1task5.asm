@@ -1,0 +1,34 @@
+.model tiny
+.stack 100h
+.data
+	Y DW 40
+	Z DW ?
+.code
+START: 	MOV AX,@data
+		MOV DS,AX
+		XOR AX,AX
+
+		MOV AX,Y
+		MUL AX
+		MOV Z,AX
+		
+		XOR CX,CX
+SAVE:	XOR DX,DX
+		INC CX
+		MOV BX,10
+		DIV BX
+		ADD DL, '0'
+		PUSH DX
+		CMP AX,0
+		JNE SAVE
+
+		MOV AX,0200h
+PRINT:	POP DX
+		INT 21h
+		LOOP PRINT   
+
+		MOV AH,10h
+		INT 16h
+		MOV AX,4C00h
+		INT 21h
+END START

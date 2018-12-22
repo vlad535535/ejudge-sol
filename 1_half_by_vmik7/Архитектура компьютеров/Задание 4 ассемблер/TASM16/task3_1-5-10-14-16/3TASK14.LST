@@ -1,0 +1,115 @@
+Turbo Assembler	 Version 3.1	    12/21/18 00:48:10	    Page 1
+3task14.asm
+
+
+
+      1	0000			     .MODEL TINY
+      2	0000			     .STACK 100h
+      3	0000			     .DATA
+      4	0000  000A 0009	0008 0007 +	     arr dw 10,9,8,7,11,6,5,4,3,2,1
+      5	      000B 0006	0005 0004 +
+      6	      0003 0002	0001
+      7	0016  0B			     n db 11
+      8	0017			     .CODE
+      9	0000  B8 0000s			     mov ax,@Data
+     10	0003  8E D8			     mov ds,ax
+     11
+     12	0005  B0 02			     mov al,2
+     13	0007  8A 16 0016r		     mov dl, n
+     14	000B  F6 E2			     mul dl
+     15	000D  2D 0002			     sub ax,2
+     16	0010  0000			     i dw 0
+     17	0012  33 DB		     LOOP1:  xor bx,bx
+     18	0014  8B 97 0000r		     LOOP2:  mov dx,arr[bx]
+     19	0018  83 C3 02				     add bx,2
+     20	001B  3B 97 0000r			     cmp dx,arr[bx]
+     21	001F  7E 17				     jle OK
+     22	0021  87 97 0000r			     xchg dx,arr[bx]
+     23	0025  89 97 FFFEr			     mov arr[bx-2],dx
+     24	0029  8A 16 0016r			     mov dl,n
+     25	002D  02 16 0016r			     add dl,n
+     26	0031  2B 16 0010r			     sub dx,i
+     27	0035  83 EA 02				     sub dx,2
+     28	0038  3B DA			     OK:     cmp bx,dx
+     29	003A  7C D8				     jl	LOOP2
+     30
+     31	003C  83 06 0010r 02		     add i,2
+     32	0041  39 06 0010r		     cmp i,ax
+     33	0045  7C CB			     jl	LOOP1
+     34
+     35	0047  BB 0000			     mov bx,0
+     36	004A  8B 87 0000r	     MAS:    mov ax,arr[bx]
+     37	004E  33 C9			     XOR CX,CX
+     38	0050  41		     SAVE:   INC CX
+     39	0051  B2 0A			     MOV dl,10
+     40	0053  F6 F2			     DIV dl
+     41	0055  80 C4 30			     ADD AH, '0'
+     42	0058  50			     PUSH AX
+     43	0059  32 E4			     XOR AH, AH
+     44	005B  3D 0000			     CMP AX,0
+     45	005E  75 F0			     JNE SAVE
+     46
+     47	0060  B8 0200			     MOV AX,0200h
+     48	0063  5A		     PRINT:  POP dx
+     49	0064  8A D6			     MOV dl,dh
+     50	0066  CD 21			     INT 21h
+     51	0068  E2 F9			     LOOP PRINT
+     52	006A  B2 20			     MOV dl," "
+     53	006C  CD 21			     INT 21h
+     54
+     55	006E  83 C3 02			     add bx,2
+     56	0071  FE 0E 0016r		     dec n
+     57	0075  80 3E 0016r 00		     cmp n,0
+Turbo Assembler	 Version 3.1	    12/21/18 00:48:10	    Page 2
+3task14.asm
+
+
+
+     58	007A  7F CE			     jg	MAS
+     59
+     60	007C  B4 10			     MOV AH,10h
+     61	007E  CD 16			     INT 16h
+     62	0080  B8 4C00			     MOV AX,4C00h
+     63	0083  CD 21			     INT 21h
+     64				     END
+Turbo Assembler	 Version 3.1	    12/21/18 00:48:10	    Page 3
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "12/21/18"
+??FILENAME			  Text	 "3task14 "
+??TIME				  Text	 "00:48:10"
+??VERSION			  Number 030A
+@32BIT				  Text	 0
+@CODE				  Text	 DGROUP
+@CODESIZE			  Text	 0
+@CPU				  Text	 0101H
+@CURSEG				  Text	 _TEXT
+@DATA				  Text	 DGROUP
+@DATASIZE			  Text	 0
+@FILENAME			  Text	 3TASK14
+@INTERFACE			  Text	 00H
+@MODEL				  Text	 1
+@STACK				  Text	 DGROUP
+@WORDSIZE			  Text	 2
+ARR				  Word	 DGROUP:0000
+I				  Word	 DGROUP:0010
+LOOP1				  Near	 DGROUP:0012
+LOOP2				  Near	 DGROUP:0014
+MAS				  Near	 DGROUP:004A
+N				  Byte	 DGROUP:0016
+OK				  Near	 DGROUP:0038
+PRINT				  Near	 DGROUP:0063
+SAVE				  Near	 DGROUP:0050
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+DGROUP				  Group
+  STACK				  16  0100 Para	  Stack	  STACK
+  _DATA				  16  0017 Word	  Public  DATA
+  _TEXT				  16  0085 Word	  Public  CODE
+

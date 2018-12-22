@@ -1,0 +1,95 @@
+Turbo Assembler	 Version 3.1	    12/21/18 01:13:14	    Page 1
+3task16.asm
+
+
+
+      1	0000			     .MODEL TINY
+      2	0000			     .STACK 100h
+      3	0000			     .DATA
+      4	0000  01 02 03 04 05 06	07	     num db 1,2,3,4,5,6,7
+      5	0007  45 67 6F 72 24 41	6E+	     nam db "Egor$","Andrew$","John$","Sarah$","Bob$","Ivan$","Arny$"
+      6	      64 72 65 77 24 4A	6F+
+      7	      68 6E 24 53 61 72	61+
+      8	      68 24 42 6F 62 24	49+
+      9	      76 61 6E 24 41 72	6E+
+     10	      79 24
+     11	002C  04 03 04 05 02 05	05	     mark db 4,3,4,5,2,5,5
+     12	0033  0007			     n dw 7
+     13	0035  0000			     count dw 0
+     14	0037			     .CODE
+     15	0000  B8 0000s			     mov ax,@Data
+     16	0003  8E D8			     mov ds,ax
+     17
+     18	0005  8B 0E 0033r		     mov cx,n
+     19	0009  33 DB			     xor bx,bx
+     20	000B  8A 87 002Cr	     L:	     mov al,mark[bx]
+     21	000F  3C 05			     cmp al,5
+     22	0011  75 04			     jne LOSER
+     23	0013  FF 06 0035r		     inc count
+     24	0017  43		     LOSER:  inc bx
+     25	0018  E2 F1			     loop L
+     26
+     27	001A  A1 0035r		     OUTP:   MOV AX,count
+     28	001D  33 C9			     XOR CX,CX
+     29	001F  41		     SAVE:   INC CX
+     30	0020  B3 0A			     MOV BL,10
+     31	0022  F6 F3			     DIV BL
+     32	0024  80 C4 30			     ADD AH, '0'
+     33	0027  50			     PUSH AX
+     34	0028  32 E4			     XOR AH, AH
+     35	002A  3D 0000			     CMP AX,0
+     36	002D  75 F0			     JNE SAVE
+     37
+     38	002F  B8 0200			     MOV AX,0200h
+     39	0032  5A		     PRINT:  POP dx
+     40	0033  8A D6			     MOV dl,dh
+     41	0035  CD 21			     INT 21h
+     42	0037  E2 F9			     LOOP PRINT
+     43
+     44	0039  B4 10			     MOV AH,10h
+     45	003B  CD 16			     INT 16h
+     46	003D  B8 4C00			     MOV AX,4C00h
+     47	0040  CD 21			     INT 21h
+     48				     END
+Turbo Assembler	 Version 3.1	    12/21/18 01:13:14	    Page 2
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "12/21/18"
+??FILENAME			  Text	 "3task16 "
+??TIME				  Text	 "01:13:14"
+??VERSION			  Number 030A
+@32BIT				  Text	 0
+@CODE				  Text	 DGROUP
+@CODESIZE			  Text	 0
+@CPU				  Text	 0101H
+@CURSEG				  Text	 _TEXT
+@DATA				  Text	 DGROUP
+@DATASIZE			  Text	 0
+@FILENAME			  Text	 3TASK16
+@INTERFACE			  Text	 00H
+@MODEL				  Text	 1
+@STACK				  Text	 DGROUP
+@WORDSIZE			  Text	 2
+COUNT				  Word	 DGROUP:0035
+L				  Near	 DGROUP:000B
+LOSER				  Near	 DGROUP:0017
+MARK				  Byte	 DGROUP:002C
+N				  Word	 DGROUP:0033
+NAM				  Byte	 DGROUP:0007
+NUM				  Byte	 DGROUP:0000
+OUTP				  Near	 DGROUP:001A
+PRINT				  Near	 DGROUP:0032
+SAVE				  Near	 DGROUP:001F
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+DGROUP				  Group
+  STACK				  16  0100 Para	  Stack	  STACK
+  _DATA				  16  0037 Word	  Public  DATA
+  _TEXT				  16  0042 Word	  Public  CODE
+

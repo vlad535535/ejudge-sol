@@ -1,0 +1,83 @@
+Turbo Assembler	 Version 3.1	    12/21/18 08:48:55	    Page 1
+4task1.asm
+
+
+
+      1	0000			     .MODEL TINY
+      2	0000			     .STACK 100h
+      3	0000			     .DATA
+      4	0000  30 30 30 30 30 31	31+	     arr db "0","0","0","0","0","1","1","1","1","1"
+      5	      31 31 31
+      6	000A  0005			     n dw 5
+      7	000C			     .CODE
+      8	0000  B8 0000s		     START:  mov ax,@Data
+      9	0003  8E D8			     mov ds,ax
+     10
+     11	0005  33 DB			     xor bx,bx
+     12	0007  8B 0E 000Ar		     mov cx,n
+     13	000B  8A 87 0000r	     L:	     mov al,arr[bx]
+     14	000F  50			     push ax
+     15	0010  E8 001C			     call print
+     16	0013  03 1E 000Ar		     add bx,n
+     17	0017  8A 87 0000r		     mov al,arr[bx]
+     18	001B  50			     push ax
+     19	001C  E8 0010			     call print
+     20	001F  2B 1E 000Ar		     sub bx,n
+     21	0023  43			     inc bx
+     22	0024  E2 E5			     loop L
+     23
+     24	0026  B4 10			     MOV AH,10h
+     25	0028  CD 16			     INT 16h
+     26	002A  B8 4C00			     MOV AX,4C00h
+     27	002D  CD 21			     INT 21h
+     28
+     29					     ;define procedure
+     30	002F			     print proc
+     31	002F  55			     push bp
+     32	0030  8B EC			     mov bp,sp
+     33	0032  8B 46 04			     mov ax,[bp+4]
+     34	0035  8A D0			     mov dl,al
+     35	0037  B4 02			     mov ah,2
+     36	0039  CD 21			     int 21h
+     37	003B  5D			     pop bp
+     38	003C  C3			     ret
+     39	003D			     print endp
+     40					     ;end of procedure
+     41				     END START
+Turbo Assembler	 Version 3.1	    12/21/18 08:48:55	    Page 2
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "12/21/18"
+??FILENAME			  Text	 "4task1  "
+??TIME				  Text	 "08:48:55"
+??VERSION			  Number 030A
+@32BIT				  Text	 0
+@CODE				  Text	 DGROUP
+@CODESIZE			  Text	 0
+@CPU				  Text	 0101H
+@CURSEG				  Text	 _TEXT
+@DATA				  Text	 DGROUP
+@DATASIZE			  Text	 0
+@FILENAME			  Text	 4TASK1
+@INTERFACE			  Text	 00H
+@MODEL				  Text	 1
+@STACK				  Text	 DGROUP
+@WORDSIZE			  Text	 2
+ARR				  Byte	 DGROUP:0000
+L				  Near	 DGROUP:000B
+N				  Word	 DGROUP:000A
+PRINT				  Near	 DGROUP:002F
+START				  Near	 DGROUP:0000
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+DGROUP				  Group
+  STACK				  16  0100 Para	  Stack	  STACK
+  _DATA				  16  000C Word	  Public  DATA
+  _TEXT				  16  003D Word	  Public  CODE
+

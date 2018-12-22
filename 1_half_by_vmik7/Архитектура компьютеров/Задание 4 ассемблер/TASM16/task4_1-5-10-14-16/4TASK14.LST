@@ -1,0 +1,142 @@
+Turbo Assembler	 Version 3.1	    12/21/18 08:59:03	    Page 1
+4task14.asm
+
+
+
+      1	0000			     .MODEL TINY
+      2	0000			     .STACK 100h
+      3	0000			     .DATA
+      4	0000  000A 0009	0008 0007 +	     arr dw 10,9,8,7,11,6,5,4,3,2,1
+      5	      000B 0006	0005 0004 +
+      6	      0003 0002	0001
+      7	0016  0B			     n db 11
+      8	0017			     .CODE
+      9	0000  B8 0000s			     mov ax,@Data
+     10	0003  8E D8			     mov ds,ax
+     11
+     12	0005  33 C0			     xor ax,ax
+     13	0007  A0 0016r			     mov al,n
+     14	000A  50			     push ax
+     15	000B  E8 0021			     call sort_arr
+     16
+     17	000E  BB 0000			     mov bx,0
+     18	0011  FF B7 0000r	     MAS:    push arr[bx]
+     19	0015  E8 0061			     call print_num
+     20
+     21	0018  83 C3 02			     add bx,2
+     22	001B  FE 0E 0016r		     dec n
+     23	001F  80 3E 0016r 00		     cmp n,0
+     24	0024  7F EB			     jg	MAS
+     25
+     26	0026  B4 10			     MOV AH,10h
+     27	0028  CD 16			     INT 16h
+     28	002A  B8 4C00			     MOV AX,4C00h
+     29	002D  CD 21			     INT 21h
+     30
+     31	002F			     sort_arr proc
+     32	002F  50			     push ax
+     33	0030  55			     push bp
+     34	0031  8B EC			     mov bp,sp
+     35	0033  8B 46 06			     mov ax, [bp+6]
+     36	0036  8A D0			     mov dl, al
+     37	0038  B0 02			     mov al,2
+     38	003A  F6 E2			     mul dl
+     39	003C  2D 0002			     sub ax,2
+     40	003F  0000			     i dw 0
+     41	0041  33 DB		     LOOP1:  xor bx,bx
+     42	0043  8B 97 0000r		     LOOP2:  mov dx,arr[bx]
+     43	0047  83 C3 02				     add bx,2
+     44	004A  3B 97 0000r			     cmp dx,arr[bx]
+     45	004E  7E 17				     jle OK
+     46	0050  87 97 0000r			     xchg dx,arr[bx]
+     47	0054  89 97 FFFEr			     mov arr[bx-2],dx
+     48	0058  8A 16 0016r			     mov dl,n
+     49	005C  02 16 0016r			     add dl,n
+     50	0060  2B 16 003Fr			     sub dx,i
+     51	0064  83 EA 02				     sub dx,2
+     52	0067  3B DA			     OK:     cmp bx,dx
+     53	0069  7C D8				     jl	LOOP2
+     54
+     55	006B  83 06 003Fr 02		     add i,2
+     56	0070  39 06 003Fr		     cmp i,ax
+     57	0074  7C CB			     jl	LOOP1
+Turbo Assembler	 Version 3.1	    12/21/18 08:59:03	    Page 2
+4task14.asm
+
+
+
+     58	0076  5D			     pop bp
+     59	0077  58			     pop ax
+     60	0078  C3			     ret
+     61	0079			     sort_arr endp
+     62
+     63	0079			     print_num proc
+     64	0079  53			     push bx
+     65	007A  55			     push bp
+     66	007B  8B EC			     mov bp,sp
+     67	007D  8B 46 06			     MOV AX,[bp+6]
+     68	0080  33 C9			     XOR CX,CX
+     69	0082  41		     SAVE:   INC CX
+     70	0083  B3 0A			     MOV BL,10
+     71	0085  F6 F3			     DIV BL
+     72	0087  80 C4 30			     ADD AH, '0'
+     73	008A  50			     PUSH AX
+     74	008B  32 E4			     XOR AH, AH
+     75	008D  3D 0000			     CMP AX,0
+     76	0090  75 F0			     JNE SAVE
+     77
+     78	0092  B8 0200			     MOV AX,0200h
+     79	0095  5A		     PRINT:  POP dx
+     80	0096  8A D6			     MOV dl,dh
+     81	0098  CD 21			     INT 21h
+     82	009A  E2 F9			     LOOP PRINT
+     83	009C  B2 20			     MOV dl," "
+     84	009E  CD 21			     INT 21h
+     85	00A0  5D			     pop bp
+     86	00A1  5B			     pop bx
+     87	00A2  C3			     ret
+     88	00A3			     print_num endp
+     89				     END
+Turbo Assembler	 Version 3.1	    12/21/18 08:59:03	    Page 3
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "12/21/18"
+??FILENAME			  Text	 "4task14 "
+??TIME				  Text	 "08:59:03"
+??VERSION			  Number 030A
+@32BIT				  Text	 0
+@CODE				  Text	 DGROUP
+@CODESIZE			  Text	 0
+@CPU				  Text	 0101H
+@CURSEG				  Text	 _TEXT
+@DATA				  Text	 DGROUP
+@DATASIZE			  Text	 0
+@FILENAME			  Text	 4TASK14
+@INTERFACE			  Text	 00H
+@MODEL				  Text	 1
+@STACK				  Text	 DGROUP
+@WORDSIZE			  Text	 2
+ARR				  Word	 DGROUP:0000
+I				  Word	 DGROUP:003F
+LOOP1				  Near	 DGROUP:0041
+LOOP2				  Near	 DGROUP:0043
+MAS				  Near	 DGROUP:0011
+N				  Byte	 DGROUP:0016
+OK				  Near	 DGROUP:0067
+PRINT				  Near	 DGROUP:0095
+PRINT_NUM			  Near	 DGROUP:0079
+SAVE				  Near	 DGROUP:0082
+SORT_ARR			  Near	 DGROUP:002F
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+DGROUP				  Group
+  STACK				  16  0100 Para	  Stack	  STACK
+  _DATA				  16  0017 Word	  Public  DATA
+  _TEXT				  16  00A3 Word	  Public  CODE
+

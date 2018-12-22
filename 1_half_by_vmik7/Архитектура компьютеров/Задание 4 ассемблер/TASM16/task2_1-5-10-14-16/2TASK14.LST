@@ -1,0 +1,82 @@
+Turbo Assembler	 Version 3.1	    12/20/18 22:14:55	    Page 1
+2task14.asm
+
+
+
+      1	0000			     .MODEL TINY
+      2	0000			     .STACK 100h
+      3	0000			     .DATA
+      4	0000  15			     a db 21
+      5	0001  0A			     b db 10
+      6	0002  0000			     r dw 0
+      7	0004  4F 46 3D 31 24		     over db "OF=1$"
+      8	0009  4F 46 3D 30 24		     nover db "OF=0$"
+      9	000E			     .CODE
+     10	0000  B8 0000s			     mov ax,@Data
+     11	0003  8E D8			     mov ds,ax
+     12	0005  33 C0			     xor ax,ax
+     13
+     14	0007  80 3E 0000r 00		     cmp a,0
+     15	000C  74 10			     je	nov
+     16	000E  80 3E 0001r 00		     cmp b,0
+     17	0013  74 09			     je	nov
+     18
+     19	0015  A0 0000r			     mov al,a
+     20	0018  F6 26 0001r		     mul b
+     21	001C  70 0F			     jo	ov
+     22
+     23	001E  BA 0009r		     NOV:    mov dx,offset nover
+     24	0021  B4 09			     mov ah,9h
+     25	0023  CD 21			     int 21h
+     26	0025  B4 10			     mov ah,10h
+     27	0027  CD 16			     int 16h
+     28	0029  B4 4C			     mov ah,4ch
+     29	002B  CD 21			     int 21h
+     30
+     31	002D  BA 0004r		     OV:     mov dx,offset over
+     32	0030  B4 09			     mov ah,9h
+     33	0032  CD 21			     int 21h
+     34	0034  B4 10			     mov ah,10h
+     35	0036  CD 16			     int 16h
+     36	0038  B4 4C			     mov ah,4ch
+     37	003A  CD 21			     int 21h
+     38				     END
+Turbo Assembler	 Version 3.1	    12/20/18 22:14:55	    Page 2
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "12/20/18"
+??FILENAME			  Text	 "2task14 "
+??TIME				  Text	 "22:14:55"
+??VERSION			  Number 030A
+@32BIT				  Text	 0
+@CODE				  Text	 DGROUP
+@CODESIZE			  Text	 0
+@CPU				  Text	 0101H
+@CURSEG				  Text	 _TEXT
+@DATA				  Text	 DGROUP
+@DATASIZE			  Text	 0
+@FILENAME			  Text	 2TASK14
+@INTERFACE			  Text	 00H
+@MODEL				  Text	 1
+@STACK				  Text	 DGROUP
+@WORDSIZE			  Text	 2
+A				  Byte	 DGROUP:0000
+B				  Byte	 DGROUP:0001
+NOV				  Near	 DGROUP:001E
+NOVER				  Byte	 DGROUP:0009
+OV				  Near	 DGROUP:002D
+OVER				  Byte	 DGROUP:0004
+R				  Word	 DGROUP:0002
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+DGROUP				  Group
+  STACK				  16  0100 Para	  Stack	  STACK
+  _DATA				  16  000E Word	  Public  DATA
+  _TEXT				  16  003C Word	  Public  CODE
+

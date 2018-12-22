@@ -1,0 +1,109 @@
+Turbo Assembler	 Version 3.1	    12/21/18 08:51:27	    Page 1
+4task5.asm
+
+
+
+      1	0000			     .MODEL TINY
+      2	0000			     .STACK 100h
+      3	0000			     .DATA
+      4	0000  0001 0002	0003 0004 +	     arr dw 1,2,3,4,575,6,7,8,9,8,7,6,5,4,3,2,1
+      5	      023F 0006	0007 0008 +
+      6	      0009 0008	0007 0006 +
+      7	      0005 0004	0003 0002 +
+      8	      0001
+      9	0022  0011			     n dw 17
+     10	0024  0000			     max dw 0
+     11	0026			     .CODE
+     12	0000  B8 0000s			     mov ax,@Data
+     13	0003  8E D8			     mov ds,ax
+     14
+     15	0005  E8 0010			     call find_max
+     16	0008  FF 36 0024r		     push max
+     17	000C  E8 0022			     call print_num
+     18
+     19	000F  B4 10			     MOV AH,10h
+     20	0011  CD 16			     INT 16h
+     21	0013  B8 4C00			     MOV AX,4C00h
+     22	0016  CD 21			     INT 21h
+     23
+     24	0018			     find_max proc
+     25	0018  33 DB			     xor bx,bx
+     26	001A  8B 0E 0022r		     mov cx,n
+     27	001E  8B 87 0000r	     MAS:    mov ax,arr[bx]
+     28	0022  3B 06 0024r		     cmp ax,max
+     29	0026  7E 03			     jle CON
+     30	0028  A3 0024r			     mov max,ax
+     31	002B  83 C3 02		     CON:    add bx,2
+     32	002E  E2 EE			     loop MAS
+     33	0030  C3			     ret
+     34	0031			     find_max endp
+     35
+     36	0031			     print_num proc
+     37	0031  55			     push bp
+     38	0032  8B EC			     mov bp,sp
+     39	0034  8B 46 04			     MOV AX,[bp+4]
+     40	0037  33 C9			     XOR CX,CX
+     41	0039  41		     SAVE:   INC CX
+     42	003A  B3 0A			     MOV BL,10
+     43	003C  F6 F3			     DIV BL
+     44	003E  80 C4 30			     ADD AH, '0'
+     45	0041  50			     PUSH AX
+     46	0042  32 E4			     XOR AH, AH
+     47	0044  3D 0000			     CMP AX,0
+     48	0047  75 F0			     JNE SAVE
+     49
+     50	0049  B8 0200			     MOV AX,0200h
+     51	004C  5A		     PRINT:  POP dx
+     52	004D  8A D6			     MOV dl,dh
+     53	004F  CD 21			     INT 21h
+     54	0051  E2 F9			     LOOP PRINT
+     55	0053  5D			     pop bp
+     56	0054  C3			     ret
+     57	0055			     print_num endp
+Turbo Assembler	 Version 3.1	    12/21/18 08:51:27	    Page 2
+4task5.asm
+
+
+
+     58				     END
+Turbo Assembler	 Version 3.1	    12/21/18 08:51:27	    Page 3
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "12/21/18"
+??FILENAME			  Text	 "4task5  "
+??TIME				  Text	 "08:51:27"
+??VERSION			  Number 030A
+@32BIT				  Text	 0
+@CODE				  Text	 DGROUP
+@CODESIZE			  Text	 0
+@CPU				  Text	 0101H
+@CURSEG				  Text	 _TEXT
+@DATA				  Text	 DGROUP
+@DATASIZE			  Text	 0
+@FILENAME			  Text	 4TASK5
+@INTERFACE			  Text	 00H
+@MODEL				  Text	 1
+@STACK				  Text	 DGROUP
+@WORDSIZE			  Text	 2
+ARR				  Word	 DGROUP:0000
+CON				  Near	 DGROUP:002B
+FIND_MAX			  Near	 DGROUP:0018
+MAS				  Near	 DGROUP:001E
+MAX				  Word	 DGROUP:0024
+N				  Word	 DGROUP:0022
+PRINT				  Near	 DGROUP:004C
+PRINT_NUM			  Near	 DGROUP:0031
+SAVE				  Near	 DGROUP:0039
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+DGROUP				  Group
+  STACK				  16  0100 Para	  Stack	  STACK
+  _DATA				  16  0026 Word	  Public  DATA
+  _TEXT				  16  0055 Word	  Public  CODE
+

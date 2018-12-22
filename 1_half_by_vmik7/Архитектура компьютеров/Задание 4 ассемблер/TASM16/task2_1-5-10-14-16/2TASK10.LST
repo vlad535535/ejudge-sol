@@ -1,0 +1,60 @@
+Turbo Assembler	 Version 3.1	    12/20/18 22:00:46	    Page 1
+2task10.asm
+
+
+
+      1	0000			     .MODEL TINY
+      2	0000			     .STACK 100h
+      3	0000			     .DATA
+      4	0000  3039			     w dw 12345
+      5	0002  0000			     result dw 0
+      6	0004			     .CODE
+      7	0000  B8 0000s			     mov ax,@Data
+      8	0003  8E D8			     mov ds,ax
+      9
+     10	0005  A1 0000r			     mov ax,w
+     11	0008  BB 000A			     mov bx,10
+     12	000B  F7 F3		     COUNTER:	     div bx
+     13	000D  33 D2			     xor dx,dx
+     14	000F  FF 06 0002r		     inc result
+     15	0013  3D 0000			     cmp ax,0
+     16	0016  75 F3			     jne COUNTER
+     17
+     18	0018  B4 4C			     mov ah,4ch
+     19	001A  CD 21			     int 21h
+     20				     END
+Turbo Assembler	 Version 3.1	    12/20/18 22:00:46	    Page 2
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "12/20/18"
+??FILENAME			  Text	 "2task10 "
+??TIME				  Text	 "22:00:46"
+??VERSION			  Number 030A
+@32BIT				  Text	 0
+@CODE				  Text	 DGROUP
+@CODESIZE			  Text	 0
+@CPU				  Text	 0101H
+@CURSEG				  Text	 _TEXT
+@DATA				  Text	 DGROUP
+@DATASIZE			  Text	 0
+@FILENAME			  Text	 2TASK10
+@INTERFACE			  Text	 00H
+@MODEL				  Text	 1
+@STACK				  Text	 DGROUP
+@WORDSIZE			  Text	 2
+COUNTER				  Near	 DGROUP:000B
+RESULT				  Word	 DGROUP:0002
+W				  Word	 DGROUP:0000
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+DGROUP				  Group
+  STACK				  16  0100 Para	  Stack	  STACK
+  _DATA				  16  0004 Word	  Public  DATA
+  _TEXT				  16  001C Word	  Public  CODE
+
